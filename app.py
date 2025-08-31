@@ -2,6 +2,8 @@ import dash
 from dash import html, dcc
 import dash_bootstrap_components as dbc
 import pandas as pd
+import requests
+from datetime import date
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
@@ -11,11 +13,13 @@ app.layout = dbc.Container([
     ], className="my-3")
 ], fluid=True)
 
-asdaData = pd.read_json('AsdaFuelPrices.json')
-BPData = pd.read_json('BPFuelPrices.json')
-EssoData = pd.read_json('EssoFuelPrices.json')
-ShellData = pd.read_json('ShellFuelPrices.json')
-MFGData = pd.read_json('MFGFuelPrices.json')
+# Fetch data from APIs
+asdaData = requests.get('https://storelocator.asda.com/fuel_prices_data.json').json()
+BPData = requests.get('https://www.bp.com/en_gb/united-kingdom/home/fuelprices/fuel_prices_data.json').json()
+EssoData = requests.get('https://fuelprices.esso.co.uk/latestdata.json').json()
+ShellData = requests.get('https://www.shell.co.uk/fuel-prices-data.html').json()
+MFGData = requests.get('https://fuel.motorfuelgroup.com/fuel_prices_data.json').json()
+
 
 asdaData = asdaData['stations']
 asdaData = asdaData[0]
@@ -50,6 +54,9 @@ MFGData = pd.json_normalize(MFGData)
 
 
 data = pd.concat([asdaData, BPData, EssoData, ShellData, MFGData], ignore_index=True)
+Date = date.today().strftime("%d/%m/%Y")
+app.layout.children.append(html.H2(f"Data last updated: {Date}"))
+app.layout.children.append(html.Br())
 
 cheapest_unleaded = data.loc[data['prices.E10'].idxmin()]
 cheapest_diesel = data.loc[data['prices.B7'].idxmin()]
