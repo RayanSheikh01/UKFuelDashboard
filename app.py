@@ -55,23 +55,21 @@ MFGData = pd.json_normalize(MFGData)
 
 data = pd.concat([asdaData, BPData, EssoData, ShellData, MFGData], ignore_index=True)
 Date = date.today().strftime("%d/%m/%Y")
-app.layout.children.append(html.H2(f"Data last updated: {Date}"))
-app.layout.children.append(html.Br())
+app.layout.children.append(html.P(f"Data last updated: {Date}"))
 
 
 
 
 cheapest_unleaded = data.loc[data['prices.E10'].idxmin()]
 cheapest_diesel = data.loc[data['prices.B7'].idxmin()]
-app.layout.children.append(html.H3(f"Cheapest Unleaded: {cheapest_unleaded['brand']} at {cheapest_unleaded['prices.E10']}p", style={"color": "green"}))
-app.layout.children.append(html.H3(f"Cheapest Diesel: {cheapest_diesel['brand']} at {cheapest_diesel['prices.B7']}p", style={"color": "green"}))
+app.layout.children.append(html.H6(f"Cheapest Unleaded: {cheapest_unleaded['brand']} at {cheapest_unleaded['prices.E10']}p", style={"color": "green"}))
+app.layout.children.append(html.H6(f"Cheapest Diesel: {cheapest_diesel['brand']} at {cheapest_diesel['prices.B7']}p", style={"color": "green"}))
 
-app.layout.children.append(html.Br())
 
 expensive_unleaded = data.loc[data['prices.E10'].idxmax()]
 expensive_diesel = data.loc[data['prices.B7'].idxmax()]
-app.layout.children.append(html.H3(f"Most Expensive Unleaded: {expensive_unleaded['brand']} at {expensive_unleaded['prices.E10']}p", style={"color": "red"}))
-app.layout.children.append(html.H3(f"Most Expensive Diesel: {expensive_diesel['brand']} at {expensive_diesel['prices.B7']}p", style={"color": "red"}))  
+app.layout.children.append(html.H6(f"Most Expensive Unleaded: {expensive_unleaded['brand']} at {expensive_unleaded['prices.E10']}p", style={"color": "red"}))
+app.layout.children.append(html.H6(f"Most Expensive Diesel: {expensive_diesel['brand']} at {expensive_diesel['prices.B7']}p", style={"color": "red"}))  
 
 bar_chart = dcc.Graph(
     figure={
