@@ -94,9 +94,6 @@ bar_chart = dcc.Graph(
 
 app.layout.children.append(bar_chart)
 
-# app.layout.children.append(dbc.Row([
-#     dbc.Col(bar_chart, width=12)
-# ], className="my-3"))
 
 # Run the server
 if __name__ == "__main__":
