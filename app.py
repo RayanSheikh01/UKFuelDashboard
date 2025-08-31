@@ -51,6 +51,10 @@ MFGData = pd.json_normalize(MFGData)
 
 data = pd.concat([asdaData, BPData, EssoData, ShellData, MFGData], ignore_index=True)
 
+cheapest_unleaded = data.loc[data['prices.E10'].idxmin()]
+cheapest_diesel = data.loc[data['prices.B7'].idxmin()]
+app.layout.children.append(html.H3(f"Cheapest Unleaded: {cheapest_unleaded['brand']} at {cheapest_unleaded['prices.E10']}p"))
+app.layout.children.append(html.H3(f"Cheapest Diesel: {cheapest_diesel['brand']} at {cheapest_diesel['prices.B7']}p"))
 
 bar_chart = dcc.Graph(
     figure={
@@ -67,6 +71,8 @@ bar_chart = dcc.Graph(
         }
     }
 )
+
+
 
 
 app.layout.children.append(bar_chart)
