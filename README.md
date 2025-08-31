@@ -27,3 +27,6 @@
 ## Data Sources
 - [UK Fuel Price APIs](https://www.gov.uk/guidance/access-fuel-price-data) – live fuel prices from major UK petrol stations  
 
+## Example
+![Dashboard Screenshot](DashboardScreenshot.png)
+
